@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  app:
+    image: phoenix:latest
+    build: .
+    command: >
+      /bin/sh -c "mix deps.get && mix compile && iex -S mix phx.server "
+    volumes:
+      - .:/app
+    ports:
+      - "4000:4000"
+    depends_on:
+      - mongo
+    environment:
+      SECRET_KEY_BASE: TtvK69c6zV0DNWeia63fpeIO7rjRrjPc7mOLLjXKPOVhqAiIby/+GKcvcaKC6g62
+  mongo:
+    image: mongo:4.4
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_DATABASE: client_admin_dev
+    volumes:
+      - ./data/mongo:/data/db
