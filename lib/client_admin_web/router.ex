@@ -23,8 +23,8 @@ defmodule ClientAdminWeb.Router do
   scope "/api", ClientAdminWeb do
     pipe_through :api
 
-    post "/login", SessionController, :login
-    post "/create", SessionController, :create
+    post "/session", SessionController, :create
+    post "/session/login", SessionController, :login
   end
 
   # Other scopes may use custom stacks.

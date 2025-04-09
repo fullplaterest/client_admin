@@ -9,7 +9,17 @@ defmodule ClientAdmin.MixProject do
       elixirc_paths: elixirc_paths(Mix.env()),
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
-      deps: deps()
+      deps: deps(),
+      test_coverage: [
+        tool: ExCoveralls,
+        minimum_coverage: 80
+      ],
+      preferred_cli_env: [
+        coveralls: :test,
+        "coveralls.detail": :test,
+        "coveralls.html": :test,
+        "coveralls.github": :test
+      ]
     ]
   end
 
@@ -58,7 +68,9 @@ defmodule ClientAdmin.MixProject do
       {:mongodb, "~> 0.5.1"},
       {:guardian, "~> 2.0"},
       {:argon2_elixir, "~> 3.0"},
-      {:ecto, "~> 3.10"}
+      {:ecto, "~> 3.10"},
+      {:excoveralls, "~> 0.18", only: [:test]},
+      {:mimic, "~> 1.7", only: :test}
     ]
   end
 

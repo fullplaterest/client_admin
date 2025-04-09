@@ -4,9 +4,9 @@ defmodule ClientAdmin.Schemas.User do
 
   @primary_key false
   embedded_schema do
-    field :email, :string
-    field :cpf, :string
-    field :password, :string
+    field(:email, :string)
+    field(:cpf, :string)
+    field(:password, :string)
   end
 
   def changeset(attrs) do
