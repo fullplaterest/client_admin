@@ -67,3 +67,5 @@ import_config "#{config_env()}.exs"
 config :client_admin, ClientAdmin.Guardian,
   issuer: "client_admin",
   secret_key: "mix guardian.gen.secret"
+
+config :client_admin, :mongo_url, "mongodb://mongo:27017/client_admin_dev"

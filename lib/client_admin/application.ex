@@ -16,7 +16,15 @@ defmodule ClientAdmin.Application do
       # Start a worker by calling: ClientAdmin.Worker.start_link(arg)
       # {ClientAdmin.Worker, arg},
       # Start to serve requests, typically the last entry
-      {Mongo, url: "mongodb://mongo:27017/client_admin_dev", name: :mongo, connect: :direct},
+      {Mongo,
+       url:
+         Application.get_env(
+           :client_admin,
+           :mongo_url,
+           "mongodb://localhost:27017/client_admin_dev"
+         ),
+       name: :mongo,
+       connect: :direct},
       ClientAdminWeb.Endpoint
     ]
 
