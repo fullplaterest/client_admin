@@ -28,6 +28,9 @@ jobs:
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
+        env:
+          MIX_ENV: test
+          mongodb: "mongodb://mongo:27017/client_admin_test"
 
     runs-on: ubuntu-latest
     name: Test on OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}

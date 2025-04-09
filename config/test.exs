@@ -13,7 +13,7 @@ config :mongodb, :mongo,
 
 config :client_admin,
        :mongo_url,
-       System.get_env("mongodb") || "mongodb://localhost:27017/client_admin_test"
+       "mongodb://mongo:27017/client_admin_test"
 
 config :client_admin, mongo_db: :mongo
 
