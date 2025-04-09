@@ -21,7 +21,7 @@ defmodule ClientAdmin.Application do
          Application.get_env(
            :client_admin,
            :mongo_url,
-           "mongodb://localhost:27017/client_admin_dev"
+           "mongodb://localhost:27017/client_admin_test"
          ),
        name: :mongo,
        connect: :direct},

@@ -8,12 +8,12 @@ config :client_admin, ClientAdminWeb.Endpoint,
   server: false
 
 config :mongodb, :mongo,
-  url: "mongodb://mongo:27017/client_admin_test",
+  url: "mongodb://mongo:27017/client_admin_tdev",
   pool_size: 5
 
 config :client_admin,
        :mongo_url,
-       "mongodb://mongo:27017/client_admin_test"
+       "mongodb://mongo:27017/client_admin_dev"
 
 config :client_admin, mongo_db: :mongo
 
