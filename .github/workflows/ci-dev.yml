@@ -24,7 +24,7 @@ jobs:
         image: mongo:4.4
         ports: ["27017:27017"]
         options: >-
-          --health-cmd="mongo --eval 'db.runCommand({ ping: 1 })'"
+          --health-cmd=mongo
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -38,11 +38,6 @@ jobs:
         otp: ["25.0.4"] # Define the OTP version [required]
         elixir: ["1.14.1"] # Define the elixir version [required]
     steps:
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.10.0
-        with:
-          mongodb-version: '4.4'
-          mongodb-db: client_admin_test
       # Step: Setup Elixir + Erlang image as the base.
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
@@ -116,7 +111,7 @@ jobs:
 
      # Step: Execute the coveralls.
       - name: Run Coveralls (GitHub format)
-        run: mix coveralls.github
+        run: mix coveralls
 
   build_and_push_docker_image:
     needs: test
