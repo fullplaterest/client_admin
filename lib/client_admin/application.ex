@@ -16,13 +16,9 @@ defmodule ClientAdmin.Application do
       # Start a worker by calling: ClientAdmin.Worker.start_link(arg)
       # {ClientAdmin.Worker, arg},
       # Start to serve requests, typically the last entry
-      {Mongo,
-        url: "mongodb://mongo:27017/client_admin_dev",
-        name: :mongo,
-        connect: :direct
-      },
-      ClientAdminWeb.Endpoint,
-      ]
+      {Mongo, url: "mongodb://mongo:27017/client_admin_dev", name: :mongo, connect: :direct},
+      ClientAdminWeb.Endpoint
+    ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
