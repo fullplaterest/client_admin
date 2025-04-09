@@ -11,7 +11,7 @@ config :mongodb, :mongo,
   url: "mongodb://mongo:27017/client_admin_test",
   pool_size: 5
 
-config :client_admin, :mongo_url, "mongodb://mongo:27017/client_admin_test"
+config :client_admin, :mongo_url, System.get_env("mongodb") || "mongodb://localhost:27017/client_admin_test"
 
 config :client_admin, mongo_db: :mongo
 

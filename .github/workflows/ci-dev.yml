@@ -49,6 +49,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
+      - name: Wait for MongoDB to be ready
+        run: |
+          RETRIES=5
+          until mongo --eval "db.runCommand({ ping: 1 })" --quiet; do
+            echo "Waiting for MongoDB to be ready..."
+            sleep 5
+            ((RETRIES--)) || exit 1
+          done
+
       # Step: Define how to cache deps. Restores existing cache if present.
       - name: Cache deps
         id: cache-deps
