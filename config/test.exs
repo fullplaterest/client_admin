@@ -3,12 +3,12 @@ import Config
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
 config :client_admin, ClientAdminWeb.Endpoint,
-  http: [ip: {127, 0, 0, 1}, port: 4002],
+  http: [ip: {0, 0, 0, 0}, port: 4002],
   secret_key_base: "g50qkrSPWt5p2d+JI0tFiZA4UnR4ZSeoYkIGJWk4lbX9GZ46NDv1Yq1qN5VGDTfN",
   server: false
 
 config :mongodb, :mongo,
-  url: "mongodb://mongo:27017/client_admin_tdev",
+  url: "mongodb://mongo:27017/client_admin_dev",
   pool_size: 5
 
 config :client_admin,
