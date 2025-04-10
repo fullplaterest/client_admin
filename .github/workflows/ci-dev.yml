@@ -26,7 +26,16 @@ jobs:
       matrix:
         otp: ["25.0.4"] # Define the OTP version [required]
         elixir: ["1.14.1"] # Define the elixir version [required]
-        mongodb-version: ['4.0', '4.2', '4.4']
+    services:
+      mongo:
+        image: mongo:4.4
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongo --eval 'db.runCommand({ ping: 1 })'" 
+          --health-interval 10s 
+          --health-timeout 5s 
+          --health-retries 5
     steps:
       # Step: Setup Elixir + Erlang image as the base.
       - name: Set up Elixir
@@ -38,12 +47,6 @@ jobs:
       # Step: Check out the code.
       - name: Checkout code
         uses: actions/checkout@v3
-
-      - name: Start MongoDB
-        uses: supercharge/mongodb-github-action@1.6.0
-        with:
-          mongodb-version: ${{ matrix.mongodb-version }}
-
 
       # Step: Define how to cache deps. Restores existing cache if present.
       - name: Cache deps
