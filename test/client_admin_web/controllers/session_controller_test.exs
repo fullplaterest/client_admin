@@ -11,7 +11,8 @@ defmodule ClientAdminWeb.SessionControllerTest do
       params = %{
         "email" => "test@email.com",
         "cpf" => "12345678900",
-        "password" => "Senha123@teste"
+        "password" => "Senha123@teste",
+        "admin" => true
       }
 
       conn = post(conn, "/api/session", params)
@@ -26,7 +27,8 @@ defmodule ClientAdminWeb.SessionControllerTest do
       params = %{
         "email" => "test@email.com",
         "cpf" => "12345678900",
-        "password" => "Senha123@teste"
+        "password" => "Senha123@teste",
+        "admin" => true
       }
 
       post(conn, "/api/session", params)
@@ -35,7 +37,8 @@ defmodule ClientAdminWeb.SessionControllerTest do
         post(conn, "/api/session", %{
           "email" => "test@email.com",
           "cpf" => "12345678900",
-          "password" => "Senha123@teste"
+          "password" => "Senha123@teste",
+          "admin" => true
         })
 
       assert json_response(conn, 409)["error"] == "Usuário com este CPF ou e-mail já existe"
@@ -55,7 +58,8 @@ defmodule ClientAdminWeb.SessionControllerTest do
         ClientAdmin.MongoRepo.insert_one("users", %{
           "email" => "test@email.com",
           "cpf" => "12345678900",
-          "password" => "senha123"
+          "password" => "senha123",
+          "admin" => true
         })
 
       :ok
@@ -104,7 +108,8 @@ defmodule ClientAdminWeb.SessionControllerTest do
       post(conn, "/api/session", %{
         "email" => "tokenfail@email.com",
         "cpf" => "99999999999",
-        "password" => "Senha123@teste"
+        "password" => "Senha123@teste",
+        "admin" => true
       })
 
     assert json_response(conn, 500)["error"] == "Erro ao gerar token"
@@ -121,7 +126,8 @@ defmodule ClientAdminWeb.SessionControllerTest do
       post(conn, "/api/session", %{
         "email" => "crash@email.com",
         "cpf" => "88888888888",
-        "password" => "Senha123@teste"
+        "password" => "Senha123@teste",
+        "admin" => true
       })
 
     assert json_response(conn, 500)["error"] == "Erro ao criar usuário"

@@ -8,7 +8,7 @@ defmodule ClientAdmin.Product.Handler do
   plug Tesla.Middleware.JSON
 
   def create(params, user) do
-    with {:ok, user} <- UserHandler.user_clean(user) |> IO.inspect(),
+    with {:ok, user} <- UserHandler.user_clean(user),
          params <- Map.put(params, "user_info", user) do
       case post("/", params) do
         {:ok, %Tesla.Env{status: 201, body: body}} ->

@@ -1,11 +1,27 @@
 defmodule ClientAdmin.MongoRepo do
-  def insert_one(collection, %{"email" => email, "cpf" => cpf, "password" => password}) do
+  def insert_one(collection, %{
+        "email" => email,
+        "cpf" => cpf,
+        "password" => password,
+        "admin" => admin
+      }) do
     password_hash = Argon2.hash_pwd_salt(password)
-    insert_one(collection, %{"email" => email, "cpf" => cpf, "password_hash" => password_hash})
+
+    insert_one(collection, %{
+      "email" => email,
+      "cpf" => cpf,
+      "password_hash" => password_hash,
+      "admin" => admin
+    })
   end
 
-  def insert_one(collection, %{"email" => email, "cpf" => cpf, "password_hash" => password_hash}) do
-    doc = %{"email" => email, "cpf" => cpf, "password_hash" => password_hash}
+  def insert_one(collection, %{
+        "email" => email,
+        "cpf" => cpf,
+        "password_hash" => password_hash,
+        "admin" => admin
+      }) do
+    doc = %{"email" => email, "cpf" => cpf, "password_hash" => password_hash, "admin" => admin}
 
     case Mongo.insert_one(:mongo, collection, doc) do
       {:ok, %{inserted_id: id} = result} ->

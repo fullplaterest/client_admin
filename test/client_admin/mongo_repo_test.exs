@@ -14,7 +14,8 @@ defmodule ClientAdmin.MongoRepoTest do
         MongoRepo.insert_one("users", %{
           "email" => "teste@example.com",
           "cpf" => "12345678900",
-          "password" => "senha123"
+          "password" => "senha123",
+          "admin" => "true"
         })
 
       user = MongoRepo.find_one("users", %{"email" => "teste@example.com"})
@@ -34,7 +35,8 @@ defmodule ClientAdmin.MongoRepoTest do
       Mongo.insert_one(:mongo, "users", %{
         "email" => "a@b.com",
         "cpf" => "123",
-        "password_hash" => "abc"
+        "password_hash" => "abc",
+        "admin" => true
       })
 
       user = MongoRepo.find_one("users", %{"email" => "a@b.com"})
@@ -85,7 +87,8 @@ defmodule ClientAdmin.MongoRepoTest do
       MongoRepo.insert_one("users", %{
         "email" => "falhatoken@test.com",
         "cpf" => "00000000000",
-        "password" => "123456"
+        "password" => "123456",
+        "admin" => true
       })
 
     assert {:error, :token_generation_failed, {:error, :mocked_error}} = result
@@ -100,7 +103,8 @@ defmodule ClientAdmin.MongoRepoTest do
       MongoRepo.insert_one("users", %{
         "email" => "fail@insert.com",
         "cpf" => "00000000001",
-        "password" => "abc123"
+        "password" => "abc123",
+        "admin" => true
       })
 
     assert result == {:error, :mongo_insert_failed}

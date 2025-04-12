@@ -15,6 +15,12 @@
       "lib/client_admin_web/controllers/page_html.ex",
       "lib/client_admin_web/plugs/auth_error_handler.ex",
       "lib/client_admin_web/plugs/auth_pipeline.ex",
-      "lib/client_admin/application.ex"
+      "lib/client_admin/application.ex",
+      "lib/client_admin_web/jsons/error_helpers.ex",
+      "lib/client_admin_web/jsons/changeset_json.ex",
+      "lib/client_admin_web/jsons/order_json.ex",
+      "lib/client_admin_web/jsons/product_json.ex",
+      "lib/client_admin_web/jsons/error_json.ex",
+      "lib/client_admin_web/controllers/fallback_controller.ex"
     ]
 }

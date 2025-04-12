@@ -21,7 +21,7 @@ defmodule ClientAdminWeb.ProductController do
 
   def list(conn, params) do
     with user <- Guardian.Plug.current_resource(conn),
-         true <- user,
+         true <- validate_admin(user),
          {:ok, product} <- ProductHandler.list(params) do
       conn
       |> put_status(:ok)
@@ -31,8 +31,7 @@ defmodule ClientAdminWeb.ProductController do
 
   def update(conn, params) do
     with user <- Guardian.Plug.current_resource(conn),
-         true <- user,
-         user <- Guardian.Plug.current_resource(conn),
+         true <- validate_admin(user),
          {:ok, product} <- ProductHandler.update(params) do
       conn
       |> put_status(:ok)

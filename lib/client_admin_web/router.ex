@@ -45,19 +45,19 @@ defmodule ClientAdminWeb.Router do
     get "/:type", ProductController, :list
   end
 
-  scope "/api/order", FullPlateWeb do
+  scope "/api/order", ClientAdminWeb do
     pipe_through [:api, :auth]
 
     post "/", OrderController, :create
-    get "/", OrderController, :get_orders
-    get "/orders", OrderController, :list_orders
-    put "/:id", OrderController, :update_status
+    get "/orders", OrderController, :list
+    put "/:id", OrderController, :update
   end
 
-  scope "/api/open/order", FullPlateWeb do
+  scope "/api/open/order", ClientAdminWeb do
     pipe_through [:api]
 
     post "/", OrderController, :create
+    get "/:id", OrderController, :get
   end
 
   # Other scopes may use custom stacks.

@@ -5,17 +5,17 @@ defmodule ClientAdminWeb.SessionController do
     changeset = ClientAdmin.Schemas.User.changeset(params)
 
     if changeset.valid? do
-      %{email: email, cpf: cpf, password: password} = changeset.changes
+      %{email: email, cpf: cpf, password: password, admin: admin} = changeset.changes
 
       case ClientAdmin.MongoRepo.find_one("users", %{
              "$or" => [%{"email" => email}, %{"cpf" => cpf}]
            }) do
         nil ->
-          # Passa o password bruto para o insert_one (ele vai gerar o hash)
           case ClientAdmin.MongoRepo.insert_one("users", %{
                  "email" => email,
                  "cpf" => cpf,
-                 "password" => password
+                 "password" => password,
+                 "admin" => admin
                }) do
             {:ok, %{inserted_id: id}, token} ->
               json(conn, %{
@@ -23,7 +23,8 @@ defmodule ClientAdminWeb.SessionController do
                 user: %{
                   id: BSON.ObjectId.encode!(id),
                   email: email,
-                  cpf: cpf
+                  cpf: cpf,
+                  admin: admin
                 }
               })
 

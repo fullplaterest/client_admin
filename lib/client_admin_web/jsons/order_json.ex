@@ -1,11 +1,12 @@
 defmodule ClientAdminWeb.Jsons.OrderJson do
   def order(%{order: order, status: status}) do
-    %{status: status, total_order: order.total, link_for_payment: order.qr_code}
+    %{id: order.id, status: status, total_order: order.total, link_for_payment: order.qr_code}
   end
 
   def order_list(%{order: orders}) do
     Enum.map(orders, fn order ->
       %{
+        id: order.id,
         products: order.products,
         total: Decimal.to_string(order.total),
         payment_status: order.payment_status,
