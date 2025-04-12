@@ -17,11 +17,11 @@ defmodule ClientAdmin.User.HandlerTest do
 
       {:ok, user_cleaned} = Handler.user_clean(user)
 
-    assert user_cleaned == %{
-       "id" => "67faf2d5e5159b0001de5b5b",
-       "cpf" => user["cpf"],
-       "email" => user["email"]
-     }
+      assert user_cleaned == %{
+               "id" => "67faf2d5e5159b0001de5b5b",
+               "cpf" => user["cpf"],
+               "email" => user["email"]
+             }
     end
   end
 end
