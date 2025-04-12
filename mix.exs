@@ -70,7 +70,10 @@ defmodule ClientAdmin.MixProject do
       {:argon2_elixir, "~> 3.0"},
       {:ecto, "~> 3.10"},
       {:excoveralls, "~> 0.18", only: [:test]},
-      {:mimic, "~> 1.7", only: :test}
+      {:mimic, "~> 1.7", only: :test},
+      {:tesla, "~> 1.7"},
+      {:hackney, "~> 1.18"},
+      {:decimal, "~> 1.5"}
     ]
   end
 
