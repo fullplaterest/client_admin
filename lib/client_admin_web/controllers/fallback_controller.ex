@@ -54,6 +54,16 @@ defmodule ClientAdminWeb.FallbackController do
     |> render(:error, layout: false, reason: "unauthorized")
   end
 
+  def call(conn, {:error, %{status: status, response: %{"errors" => error}}}) do
+    IO.inspect(error)
+    Logger.error("Error fallback #{inspect(error)}")
+
+    conn
+    |> put_status(status)
+    |> put_view(json: ClientAdminWeb.Jsons.ErrorJson)
+    |> render(:error, layout: false, reason: error)
+  end
+
   def call(conn, error) do
     Logger.error("Error fallback #{inspect(error)}")
 
