@@ -32,26 +32,15 @@ defmodule ClientAdminWeb.OrderController do
     with {:ok, order} <- OrderHandler.get_one(params) do
       conn
       |> put_status(:ok)
-      |> render(:order, loyalt: false, order: order, status: :show)
+      |> render(:order_get, loyalt: false, order: order, status: :show)
     end
   end
 
   def list(conn, params) do
-    with user <- Guardian.Plug.current_resource(conn),
-         {:ok, order} <- OrderHandler.list(params, user) do
+    with {:ok, order} <- OrderHandler.list(params) do
       conn
       |> put_status(:ok)
-      |> render(:order_list, loyalt: false, order: order)
-    end
-  end
-
-  def list_all(conn, params) do
-    with user <- Guardian.Plug.current_resource(conn),
-         true <- validate_admin(user),
-         {:ok, order} <- OrderHandler.list_all(params) do
-      conn
-      |> put_status(:ok)
-      |> render(:order_list, loyalt: false, order: order)
+      |> render(:order_list_admin, loyalt: false, order: order)
     end
   end
 
@@ -61,7 +50,7 @@ defmodule ClientAdminWeb.OrderController do
          {:ok, order} <- OrderHandler.update(params) do
       conn
       |> put_status(:ok)
-      |> render(:order, loyalt: false, order: order, status: :updated)
+      |> render(:updated_order_admin, loyalt: false, order: order, status: :updated)
     end
   end
 

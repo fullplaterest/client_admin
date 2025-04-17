@@ -10,7 +10,7 @@ defmodule ClientAdminWeb.ProductController do
   plug :put_view, json: ClientAdminWeb.Jsons.ProductJson
 
   def create(conn, params) do
-    with user <- Guardian.Plug.current_resource(conn) |> IO.inspect(),
+    with user <- Guardian.Plug.current_resource(conn),
          true <- validate_admin(user),
          {:ok, product} <- ProductHandler.create(params, user) do
       conn
@@ -30,7 +30,7 @@ defmodule ClientAdminWeb.ProductController do
   def update(conn, params) do
     with user <- Guardian.Plug.current_resource(conn),
          true <- validate_admin(user),
-         {:ok, product} <- ProductHandler.update(params) |> IO.inspect() do
+         {:ok, product} <- ProductHandler.update(params) do
       conn
       |> put_status(:ok)
       |> render(:product, loyalt: false, product: product, status: :updated)

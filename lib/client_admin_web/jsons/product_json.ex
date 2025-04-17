@@ -1,7 +1,5 @@
 defmodule ClientAdminWeb.Jsons.ProductJson do
   def product(%{product: product, status: status}) do
-    IO.inspect(product)
-
     %{
       id: product["id"],
       product_name: product["product_name"],

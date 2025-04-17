@@ -55,7 +55,6 @@ defmodule ClientAdminWeb.FallbackController do
   end
 
   def call(conn, {:error, %{status: status, response: %{"errors" => error}}}) do
-    IO.inspect(error)
     Logger.error("Error fallback #{inspect(error)}")
 
     conn

@@ -16,7 +16,6 @@ defmodule ClientAdmin.Product.Handler do
           {:ok, body}
 
         {:ok, %Tesla.Env{status: status, body: body}} ->
-          IO.inspect({status, body})
           {:error, %{status: status, response: body}}
 
         {:error, reason} ->
