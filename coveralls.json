@@ -21,6 +21,8 @@
       "lib/client_admin_web/jsons/order_json.ex",
       "lib/client_admin_web/jsons/product_json.ex",
       "lib/client_admin_web/jsons/error_json.ex",
-      "lib/client_admin_web/controllers/fallback_controller.ex"
+      "lib/client_admin_web/controllers/fallback_controller.ex",
+      "lib/client_admin/order/handler_behavior",
+      "lib/client_admin/product/handler_behavior"
     ]
 }

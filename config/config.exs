@@ -71,3 +71,5 @@ config :client_admin, ClientAdmin.Guardian,
 if config_env() != :test do
   config :client_admin, :mongo_url, "mongodb://mongo:27017/client_admin_dev"
 end
+
+config :tesla, adapter: Tesla.Adapter.Hackney

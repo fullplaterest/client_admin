@@ -73,7 +73,8 @@ defmodule ClientAdmin.MixProject do
       {:mimic, "~> 1.7", only: :test},
       {:tesla, "~> 1.7"},
       {:hackney, "~> 1.18"},
-      {:decimal, "~> 1.5"}
+      {:decimal, "~> 1.5"},
+      {:mox, "~> 1.1", only: :test}
     ]
   end
 

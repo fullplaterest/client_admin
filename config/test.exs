@@ -8,12 +8,12 @@ config :client_admin, ClientAdminWeb.Endpoint,
   server: false
 
 config :mongodb, :mongo,
-  url: "mongodb://localhost:27017/client_admin_dev",
+  url: "mongodb://mongo:27017/client_admin_dev",
   pool_size: 5
 
 config :client_admin,
        :mongo_url,
-       "mongodb://localhost:27017/client_admin_dev"
+       "mongodb://mongo:27017/client_admin_dev"
 
 config :client_admin, mongo_db: :mongo
 
@@ -34,3 +34,6 @@ config :phoenix, :plug_init_mode, :runtime
 # Enable helpful, but potentially expensive runtime checks
 config :phoenix_live_view,
   enable_expensive_runtime_checks: true
+
+config :client_admin, ClientAdmin.Product.Handler, adapter: Tesla.Mock
+config :client_admin, ClientAdmin.Order.Handler, adapter: Tesla.Mock
