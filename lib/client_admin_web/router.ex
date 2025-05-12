@@ -14,6 +14,10 @@ defmodule ClientAdminWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug ClientAdminWeb.AuthPipeline
+  end
+
   scope "/", ClientAdminWeb do
     pipe_through :browser
 
@@ -23,8 +27,37 @@ defmodule ClientAdminWeb.Router do
   scope "/api", ClientAdminWeb do
     pipe_through :api
 
-    post "/login", SessionController, :login
-    post "/create", SessionController, :create
+    post "/session", SessionController, :create
+    post "/session/login", SessionController, :login
+  end
+
+  scope "/api/product", ClientAdminWeb do
+    pipe_through [:api, :auth]
+
+    post "/", ProductController, :create
+    put "/:id", ProductController, :update
+    delete "/:id", ProductController, :delete
+  end
+
+  scope "/api/open/product", ClientAdminWeb do
+    pipe_through [:api]
+
+    get "/:type", ProductController, :list
+  end
+
+  scope "/api/order", ClientAdminWeb do
+    pipe_through [:api, :auth]
+
+    post "/", OrderController, :create
+    get "/orders", OrderController, :list
+    put "/:id", OrderController, :update
+  end
+
+  scope "/api/open/order", ClientAdminWeb do
+    pipe_through [:api]
+
+    post "/", OrderController, :create
+    get "/:id", OrderController, :get
   end
 
   # Other scopes may use custom stacks.

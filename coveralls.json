@@ -1,0 +1,28 @@
+{
+    "skip_files": [
+      "lib/client_admin.ex",
+      "lib/client_admin/mailer.ex",
+      "lib/client_admin_web.ex",
+      "lib/client_admin_web/endpoint.ex",
+      "lib/client_admin_web/gettext.ex",
+      "lib/client_admin_web/router.ex",
+      "lib/client_admin_web/telemetry.ex",
+      "lib/client_admin_web/components/core_components.ex",
+      "lib/client_admin_web/components/layouts.ex",
+      "lib/client_admin_web/controllers/error_helpers.ex",
+      "lib/client_admin_web/controllers/error_json.ex",
+      "lib/client_admin_web/controllers/page_controller.ex",
+      "lib/client_admin_web/controllers/page_html.ex",
+      "lib/client_admin_web/plugs/auth_error_handler.ex",
+      "lib/client_admin_web/plugs/auth_pipeline.ex",
+      "lib/client_admin/application.ex",
+      "lib/client_admin_web/jsons/error_helpers.ex",
+      "lib/client_admin_web/jsons/changeset_json.ex",
+      "lib/client_admin_web/jsons/order_json.ex",
+      "lib/client_admin_web/jsons/product_json.ex",
+      "lib/client_admin_web/jsons/error_json.ex",
+      "lib/client_admin_web/controllers/fallback_controller.ex",
+      "lib/client_admin/order/handler_behavior",
+      "lib/client_admin/product/handler_behavior"
+    ]
+}

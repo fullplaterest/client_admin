@@ -17,12 +17,16 @@ defmodule ClientAdmin.Application do
       # {ClientAdmin.Worker, arg},
       # Start to serve requests, typically the last entry
       {Mongo,
-        url: "mongodb://mongo:27017/client_admin_dev",
-        name: :mongo,
-        connect: :direct
-      },
-      ClientAdminWeb.Endpoint,
-      ]
+       url:
+         Application.get_env(
+           :client_admin,
+           :mongo_url,
+           "mongodb://localhost:27017/client_admin_dev"
+         ),
+       name: :mongo,
+       connect: :direct},
+      ClientAdminWeb.Endpoint
+    ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
     # for other strategies and supported options
