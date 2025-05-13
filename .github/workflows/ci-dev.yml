@@ -25,7 +25,7 @@ jobs:
       # and running the workflow steps.
       matrix:
         otp: ["25.0.4"] # Define the OTP version [required]
-        elixir: ["1.14.1"] # Define the elixir version [required]
+        elixir: ["1.16.1"] # Define the elixir version [required]
     services:
       mongo:
         image: mongo:4.4
