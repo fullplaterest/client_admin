@@ -49,7 +49,7 @@ if config_env() == :prod do
 
   mongo_url =
     System.get_env("MONGODB_URL") ||
-      raise "Missing MONGODB_URL env var. Example: mongodb://user:pass@ip:27017/client_admin_prod"
+      "mongodb://admin:senha123@44.201.141.110:27017/client_admin_prod?authSource=admin"
 
   config :mongodb, :mongo,
     url: mongo_url,
