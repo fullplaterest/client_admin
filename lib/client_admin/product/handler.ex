@@ -4,7 +4,7 @@ defmodule ClientAdmin.Product.Handler do
 
   alias ClientAdmin.User.Handler, as: UserHandler
 
-  @base_url "http://app:4001/api/product"
+  @base_url "http://44.211.72.40:4001/api/product"
   plug Tesla.Middleware.BaseUrl, @base_url
   plug Tesla.Middleware.JSON
 
