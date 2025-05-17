@@ -1,14 +1,10 @@
-name: Elixir CI
+name: Elixir CI & Deploy
 
-# Define workflow that runs when changes are pushed to the
-# `main` branch or pushed to a PR branch that targets the `main`
-# branch. Change the branch name if your project uses a
-# different name for the main branch like "master" or "production".
 on:
   push:
-    branches: ["main"] # adapt branch for project
+    branches: ["main"]
   pull_request:
-    branches: ["main"] # adapt branch for project
+    branches: ["main"]
 
 env:
   MIX_ENV: test
@@ -21,93 +17,115 @@ jobs:
     runs-on: ubuntu-latest
     name: Elixir Tests
     strategy:
-      # Specify the OTP and Elixir versions to use when building
-      # and running the workflow steps.
       matrix:
-        otp: ["25.0.4"] # Define the OTP version [required]
-        elixir: ["1.16.1"] # Define the elixir version [required]
+        otp: ["25.0.4"]
+        elixir: ["1.16.1"]
+
     services:
       mongo:
         image: mongo:4.4
         ports:
           - 27017:27017
         options: >-
-          --health-cmd "mongo --eval 'db.runCommand({ ping: 1 })'" 
-          --health-interval 10s 
-          --health-timeout 5s 
+          --health-cmd "mongo --eval 'db.runCommand({ ping: 1 })'"
+          --health-interval 10s
+          --health-timeout 5s
           --health-retries 5
+
     steps:
-      # Step: Setup Elixir + Erlang image as the base.
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          otp-version: ${{matrix.otp}}
-          elixir-version: ${{matrix.elixir}}
+          otp-version: ${{ matrix.otp }}
+          elixir-version: ${{ matrix.elixir }}
 
-      # Step: Check out the code.
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Step: Define how to cache deps. Restores existing cache if present.
       - name: Cache deps
-        id: cache-deps
         uses: actions/cache@v3
-        env:
-          cache-name: cache-elixir-deps
         with:
           path: deps
-          key: ${{ runner.os }}-mix-${{ env.cache-name }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-mix-${{ env.cache-name }}-
+          key: ${{ runner.os }}-deps-${{ hashFiles('**/mix.lock') }}
 
-      # Step: Define how to cache the `_build` directory. After the first run,
-      # this speeds up tests runs a lot. This includes not re-compiling our
-      # project's downloaded deps every run.
-      - name: Cache compiled build
-        id: cache-build
+      - name: Cache build
         uses: actions/cache@v3
-        env:
-          cache-name: cache-compiled-build
         with:
           path: _build
-          key: ${{ runner.os }}-mix-${{ env.cache-name }}-${{ hashFiles('**/mix.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-mix-${{ env.cache-name }}-
-            ${{ runner.os }}-mix-
+          key: ${{ runner.os }}-build-${{ hashFiles('**/mix.lock') }}
 
-      # Step: Conditionally bust the cache when job is re-run.
-      # Sometimes, we may have issues with incremental builds that are fixed by
-      # doing a full recompile. In order to not waste dev time on such trivial
-      # issues (while also reaping the time savings of incremental builds for
-      # *most* day-to-day development), force a full recompile only on builds
-      # that are retried.
-      - name: Clean to rule out incremental build as a source of flakiness
-        if: github.run_attempt != '1'
-        run: |
-          mix deps.clean --all
-          mix clean
-        shell: sh
-
-      # Step: Download project dependencies. If unchanged, uses
-      # the cached version.
       - name: Install dependencies
         run: mix deps.get
 
-      # Step: Compile the project treating any warnings as errors.
-      # Customize this step if a different behavior is desired.
-      - name: Compiles without warnings
+      - name: Compile project
         run: mix compile --warnings-as-errors
 
-      # Step: Check that the checked in code has already been formatted.
-      # This step fails if something was found unformatted.
-      # Customize this step as desired.
       - name: Check Formatting
         run: mix format --check-formatted
 
-      # Step: Execute the tests.
       - name: Run tests
         run: mix test
 
-     # Step: Execute the coveralls.
-      - name: Run Coveralls (GitHub format)
+      - name: Run Coveralls
         run: mix coveralls
+
+  deploy_to_ec2:
+    needs: test
+    runs-on: ubuntu-latest
+    env:
+      MIX_ENV: prod
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: 25.0.4
+          elixir-version: 1.16.1
+
+      - name: Install dependencies
+        run: mix deps.get
+
+      - name: Compile for release
+        run: mix compile
+
+      - name: Build release
+        run: mix release
+
+      - name: Archive release
+        run: tar -czf client_admin.tar.gz -C _build/prod/rel/client_admin .
+
+      - name: Upload to EC2
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          source: "client_admin.tar.gz"
+          target: "~/app"
+
+      - name: Run release on EC2
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd ~/app
+            tar -xzf client_admin.tar.gz
+            export SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
+            export PHX_HOST=${{ secrets.PHX_HOST }}
+            export PORT=4003
+            export PHX_SERVER=true
+            export MIX_ENV=prod
+
+            # MongoDB remoto (ponto chave!)
+            export MONGODB_URL=${{ secrets.MONGODB_URL }}
+
+            # Parar release anterior se estiver rodando
+            ./bin/client_admin stop || true
+
+            # Subir a nova versão
+            ./bin/client_admin daemon
