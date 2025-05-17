@@ -43,7 +43,7 @@ defmodule ClientAdminWeb.Bdd.IntengrationTest do
 
       # cria um produto com sucesso
       Tesla.Mock.mock(fn
-        %{method: :post, url: "http://app:4001/api/product"} ->
+        %{method: :post, url: "http://44.211.72.40:4001/api/product"} ->
           %Tesla.Env{
             status: 201,
             body: %{
@@ -77,7 +77,7 @@ defmodule ClientAdminWeb.Bdd.IntengrationTest do
       assert json_not_admin["user"]["cpf"] == "12345678908"
 
       # lista os produtos para pegar o id e fazer o pedido
-      url = "http://app:4001/api/product/sobremesa"
+      url = "http://44.211.72.40:4001/api/product/sobremesa"
 
       Tesla.Mock.mock(fn
         %{method: :get, url: ^url} ->
@@ -105,7 +105,7 @@ defmodule ClientAdminWeb.Bdd.IntengrationTest do
 
       # cria um pedido com sucesso
       Tesla.Mock.mock(fn
-        %{method: :post, url: "http://app:4001/api/order/"} ->
+        %{method: :post, url: "http://44.211.72.40:4001/api/order/"} ->
           %Tesla.Env{
             status: 201,
             body: %{
@@ -128,7 +128,7 @@ defmodule ClientAdminWeb.Bdd.IntengrationTest do
       assert json_order["status"] == "created"
 
       id_order = json_order["id"]
-      url = "http://app:4001/api/order/#{id_order}"
+      url = "http://44.211.72.40:4001/api/order/#{id_order}"
 
       # usuario verifica o pedido
       Tesla.Mock.mock(fn
@@ -158,7 +158,7 @@ defmodule ClientAdminWeb.Bdd.IntengrationTest do
 
       page = "1"
       page_size = "5"
-      url = "http://app:4001/api/order/orders/?page=#{page}&page_size=#{page_size}"
+      url = "http://44.211.72.40:4001/api/order/orders/?page=#{page}&page_size=#{page_size}"
 
       # usuario admin verifica o pedido
       Tesla.Mock.mock(fn
@@ -186,7 +186,7 @@ defmodule ClientAdminWeb.Bdd.IntengrationTest do
 
       # admin atualiza o pedido para em preparacao pos receber o pagamento
       params = %{"order_status" => "em_preparacao"}
-      url = "http://app:4001/api/order/#{id_order}"
+      url = "http://44.211.72.40:4001/api/order/#{id_order}"
 
       Tesla.Mock.mock(fn
         %{method: :put, url: ^url} ->
