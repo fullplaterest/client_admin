@@ -117,7 +117,7 @@ jobs:
             tar -xzf client_admin.tar.gz
             export SECRET_KEY_BASE=${{ secrets.SECRET_KEY_BASE }}
             export PHX_HOST=${{ secrets.PHX_HOST }}
-            export PORT=4003
+            export PORT=4000
             export PHX_SERVER=true
             export MIX_ENV=prod
 
