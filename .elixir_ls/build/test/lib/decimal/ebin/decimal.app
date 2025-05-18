@@ -6,4 +6,4 @@
                         'Elixir.Inspect.Decimal',
                         'Elixir.String.Chars.Decimal']},
               {registered,[]},
-              {vsn,"1.9.0"}]}.
+              {vsn,"2.0.0"}]}.
