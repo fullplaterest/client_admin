@@ -91,6 +91,13 @@ jobs:
 
       - name: Compile for release
         run: mix compile
+      
+      - name: Clean build
+        run: |
+          mix deps.clean --all
+          rm -rf _build deps
+          mix deps.get
+          mix deps.compile
 
       - name: Build release
         run: mix release
