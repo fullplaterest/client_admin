@@ -29,7 +29,7 @@ defmodule ClientAdmin.MixProject do
   def application do
     [
       mod: {ClientAdmin.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :mongodb_driver]
     ]
   end
 
@@ -65,7 +65,7 @@ defmodule ClientAdmin.MixProject do
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
-      {:mongodb, github: "elixir-mongo/mongodb"},
+      {:mongodb_driver, "~> 1.5.0"},
       {:guardian, "~> 2.0"},
       {:argon2_elixir, "~> 3.0"},
       {:ecto, "~> 3.10"},
@@ -73,7 +73,7 @@ defmodule ClientAdmin.MixProject do
       {:mimic, "~> 1.7", only: :test},
       {:tesla, "~> 1.7"},
       {:hackney, "~> 1.18"},
-      {:decimal, "~> 2.0.0"},
+      {:decimal, "~> 2.1.1"},
       {:mox, "~> 1.1", only: :test}
     ]
   end

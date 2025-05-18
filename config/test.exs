@@ -7,15 +7,9 @@ config :client_admin, ClientAdminWeb.Endpoint,
   secret_key_base: "g50qkrSPWt5p2d+JI0tFiZA4UnR4ZSeoYkIGJWk4lbX9GZ46NDv1Yq1qN5VGDTfN",
   server: false
 
-config :mongodb, :mongo,
-  url: "mongodb://localhost:27017/client_admin_dev",
-  pool_size: 5
-
-config :client_admin,
-       :mongo_url,
-       "mongodb://localhost:27017/client_admin_dev"
-
-config :client_admin, mongo_db: :mongo
+config :client_admin, :mongo_config,
+  url: "mongodb://localhost:27017/client_admin_test",
+  name: :mongo
 
 config :logger, level: :warn
 
