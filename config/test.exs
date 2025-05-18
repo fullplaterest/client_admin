@@ -8,7 +8,7 @@ config :client_admin, ClientAdminWeb.Endpoint,
   server: false
 
 config :client_admin, :mongo_config,
-  url: "mongodb://localhost:27017/client_admin_test",
+  url: "mongodb://mongo:27017/client_admin_test",
   name: :mongo
 
 config :logger, level: :warn
