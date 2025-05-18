@@ -68,8 +68,4 @@ config :client_admin, ClientAdmin.Guardian,
   issuer: "client_admin",
   secret_key: "mix guardian.gen.secret"
 
-if config_env() != :test do
-  config :client_admin, :mongo_url, "mongodb://localhost:27017/client_admin_dev"
-end
-
 config :tesla, adapter: Tesla.Adapter.Hackney

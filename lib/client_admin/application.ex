@@ -7,29 +7,18 @@ defmodule ClientAdmin.Application do
 
   @impl true
   def start(_type, _args) do
+    IO.inspect(Application.fetch_env!(:client_admin, :mongo_config))
+
     children = [
       ClientAdminWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:client_admin, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ClientAdmin.PubSub},
       # Start the Finch HTTP client for sending emails
       {Finch, name: ClientAdmin.Finch},
-      # Start a worker by calling: ClientAdmin.Worker.start_link(arg)
-      # {ClientAdmin.Worker, arg},
-      # Start to serve requests, typically the last entry
-      {Mongo,
-       url:
-         Application.get_env(
-           :client_admin,
-           :mongo_url,
-           "mongodb://localhost:27017/client_admin_dev"
-         ),
-       name: :mongo,
-       connect: :direct},
+      {Mongo, Application.fetch_env!(:client_admin, :mongo_config)},
       ClientAdminWeb.Endpoint
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: ClientAdmin.Supervisor]
     Supervisor.start_link(children, opts)
   end

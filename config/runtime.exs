@@ -51,10 +51,7 @@ if config_env() == :prod do
     System.get_env("MONGODB_URL") ||
       "mongodb://admin:senha123@44.201.141.110:27017/client_admin_prod?authSource=admin"
 
-  config :mongodb, :mongo,
+  config :client_admin, :mongo_config,
     url: mongo_url,
-    pool_size: String.to_integer(System.get_env("POOL_SIZE") || "10")
-
-  config :client_admin, :mongo_url, mongo_url
-  config :client_admin, mongo_db: :mongo
+    name: :mongo
 end
